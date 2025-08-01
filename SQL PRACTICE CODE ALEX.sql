@@ -1,463 +1,718 @@
--- one shot sql practice 
-
-use parks_and_recreation;
-
--- SELECT STATEMENT IN SQL 
-SELECT * 
-FROM parks_and_recreation.employee_demographics;
--- here semcolon tells end of this querry
-
--- selecting specific column 
-select first_name,
-birth_date, 
-last_name,
-age,
-(age+10)+10 
-from parks_and_recreation.employee_demographics;
--- calcualtion follows the rule of pemdas, paranthesis, exponent, multipy, divide, add, subtract
--- DISTINCT- unique values 
-select gender 
-from parks_and_recreation.employee_demographics; 
-
--- using distinct 
-select distinct gender 
-from parks_and_recreation.employee_demographics; 
-
-
--- using multiple columns aat a time with distint will be considerd togather as unique 
-
-select distinct  first_name, gender 
-from parks_and_recreation.employee_demographics; 
-
-
--- we can save this file by using save button in this terminal only;
-
-
--- WHERE CLAUSE _ FILTERNING OUR DATA 
-select * 
-from parks_and_recreation.employee_salary
-where salary >= 50000
-;
-# here operator >=  is used 
--- more examples 
-select * 
-from parks_and_recreation.employee_demographics
-where gender = 'female'
-;
-
-select * 
-from parks_and_recreation.employee_demographics
-where birth_date> '1985-01-01'
-;
-
-
--- logical operators AND, OR, NOT, 
-select * 
-from parks_and_recreation.employee_demographics
-where birth_date> '1985-01-01' AND gender='male'
-;
-
--- or 
-select * 
-from parks_and_recreation.employee_demographics
-where birth_date> '1985-01-01' or gender='male'
-;
--- or not 
-select * 
-from parks_and_recreation.employee_demographics
-where birth_date> '1985-01-01' or not gender='male'
-;
- -- USING PEMDAS HERE IN OPERATORS
- select * 
-from parks_and_recreation.employee_demographics
-where (first_name = ' leslie' and age = 44) or age > 55
-;
-
--- LIKE STAEMENT, FOR SPECIFIC PATTERNS 
--- % - anything 
--- _ specific value 
-select * 
-from parks_and_recreation.employee_demographics
-where first_name like 'er%' # here er at the beginnig and then anything after that 
-
-;
-
-select * 
-from parks_and_recreation.employee_demographics
-where first_name like '%er%' # here anything comes before, anything comes after but er comes in to middle 
-;
-select * 
-from parks_and_recreation.employee_demographics
-where first_name like 'a%' # here a must comes at the beginning 
-;
-select * 
-from parks_and_recreation.employee_demographics
-where first_name like 'a__' #  starts with a and has two characters after no more no less
-;
-select * 
-from parks_and_recreation.employee_demographics
-where first_name like 'a___%' #  starats with a and then 3 characters and then anything 
-;
-
-
-
--- GROUP BY AND ORDER BY
--- once you group those column you can run aggreagte functions on those rows 
-select gender 
-from parks_and_recreation.employee_demographics
-group by gender 
-;
-
--- mistakes 
-select first_name
-from parks_and_recreation.employee_demographics
-group by gender 
-; #here selected cloumn must be matching with group by column, if we are not performing aggregate functions on it 
-
-
--- using agg funtions 
-select gender, avg(age)# here avg age is being calculated based on the grouped genders from age column 
-from parks_and_recreation.employee_demographics
-group by gender 
-;
-
-select occupation, salary
-from parks_and_recreation.employee_salary
-group by occupation, salary
-;
-
-select gender, avg(age), max(age), min(age), count(age)
-from parks_and_recreation.employee_demographics
-group by gender
-;
-
-
--- order by - ascending or descending order 
-# by default its ascending order
-select*
-from parks_and_recreation.employee_demographics
-order by first_name asc
-;
-select*
-from parks_and_recreation.employee_demographics
-order by first_name desc
-;
-
-select*
-from parks_and_recreation.employee_demographics
-order by gender, age desc # here first gender will be ordered first. so placing matters 
-;
- -- here we can use column positions 
+ # SELECT STATEMENT 
+ use parks_and_recreation;
+ SELECT * # for whole table
+ FROM parks_and_recreation.employee_demographics; # here db is selected and then table name 
+ 
+ # for specific columns/column 
+ SELECT first_name, 
+ last_name, 
+ birth_date
+ FROM parks_and_recreation.employee_demographics;
+ 
+ -- calculataion on columns 
+  SELECT first_name, 
+ last_name, 
+ birth_date,
+ age,
+ ( age+10)*10+10
+ FROM parks_and_recreation.employee_demographics;
+ -- any calculation follows the rule of pemdas paraenthesis, exponent, multiply, divide, add
+ 
+ # distinct 
+ SELECT  DISTINCT gender
+ FROM parks_and_recreation.employee_demographics;
+ 
+ # for multipe coluns it will consider both combination as a unique value
+  SELECT  DISTINCT first_name,gender
+ FROM parks_and_recreation.employee_demographics;
+ 
+ # THANK YOU!
+ 
+ 
+ # WHERE CLAUSE 
+ -- use to help filter rows of data where as the select statement is used to have fiter or select actual columns 
+ SELECT * 
+ FROM parks_and_recreation.employee_salary
+ where salary >= 50000
+ ;
+  SELECT * 
+ FROM parks_and_recreation.employee_salary
+ where salary <= 50000
+ ;
+   SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where gender != 'female'# here is not operator is being used 
+ ;
+ 
+  SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where birth_date> '1985-01-01'
+ ;
+ 
+ -- logical operators 
+   SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where birth_date> '1985-01-01'
+ and gender = 'male'
+ ;
+ # LOGICAL OPERATORS 
+ -- =, !=, <, >, >=, <=, 
+    SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where (birth_date> '1985-01-01' and age = 44) or age> 55
+ ;
+ 
+ # LIKE STATEMENT 
+ -- to look for specific pattern 
+ -- any character 
+ -- _ specific character 
+     SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where first_name like '%er%' # anything comes before anything comes after only er should come into it.
+ ;
+ 
+ 
+     SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where first_name like 'a%' # name starting with a 
+ ;
+      SELECT * 
+ FROM parks_and_recreation.employee_demographics
+ where first_name like 'a__' # name starting with a and then has only two charaters after it 
+ ;
+ SELECT *
+ FROM parks_and_recreation.employee_demographics
+ where first_name like 'a___%' # starting with a and then 3 characters and then anything after that
+ ;
+  SELECT *
+ FROM parks_and_recreation.employee_demographics
+ where birth_date like '1989' # filtering wrt birthdate 
+ ;
+ 
+ 
+ # GROUP BY AND ORDER BY 
+ -- group by, group togather rows that have  the same values in the specified columns that we are grouping on once you group rows togather then  you can run aggregate funtions  on those rows  
+  SELECT gender, avg(age) # here we can apply on many columns but select and group by shuold match to work properly and its logical and agg functions can be used here ( avg(age)
+  
+ FROM parks_and_recreation.employee_demographics
+ group by gender
+ 
+ ;
+ SELECT gender, avg(age), max(age), min(age), count(age)
+ FROM parks_and_recreation.employee_demographics
+ group by gender
+ ;
+ 
+ -- ORDER BY- sorts the result in ascending or descending order 
+ # ASC/DESC
+  SELECT *
+ FROM parks_and_recreation.employee_demographics
+ ORDER BY gender, age desc # here gender is ordered first( place matters) and then age is being order as  default order asc 
+ 
+ ;
+ -- using column places - not recommended 
+ SELECT *
+ FROM parks_and_recreation.employee_demographics
+ ORDER BY 5,4 desc # here gender is ordered first( place matters) and then age is being order as  default order asc 
+ 
+ ;
+ 
+ -- HAVING VS WHERE 
+ -- WHERE - used to filter 
+ SELECT gender,avg(age)
+ FROM parks_and_recreation.employee_demographics
+ WHERE AVG(age)> 40
+ GROUP BY(gender) # when we filter with where then group by hasn't haappend, and having comes into the play, here group by has not happend and where is being used which will cause error, that's why having is being used 
+ 
+ ;
+ # HAVING will be right alter group by adn after group by we can filter based on agg functions 
  
 
-select*
-from parks_and_recreation.employee_demographics
-order by 5,4
-;
-
--- HAVING VS WHERE 
-select gender, avg(age) # here avg is only performed after the group by, so here where action cant be performed without avg implementaion, and will show error
-# here Having comes into the role 
-from parks_and_recreation.employee_demographics
-where avg(age)>40
-group by gender
-;
-
-select gender, avg(age)
+select gender, avg(age) 
 from parks_and_recreation.employee_demographics
 group by gender
-having avg ( age) >40
+having avg(age)> 40 # now filtering is here
 ;
-
--- USING BOTH IN ONE QUERRY 
-select occupation, avg(salary)
+-- using both in a go. 
+select occupatiaon, avg(salary) 
 from parks_and_recreation.employee_salary
-where occcupation like '%manager%' # row level filteration 
-group by occupation
-having avg(salary)> 750000 # agg funtion level filteration 
+ where occupation like '%manager%' # filtering at row level 1
+ group by occupation
+ having avg(salary)> 75000 # filtering at agg funtions level, this having will only work after the group by works 
+ 
 ;
 
 -- LIMITS AND ALIASING 
+
+# limit 
 select * 
 from parks_and_recreation.employee_demographics
 order by age desc
-limit 2,1;  # here sorting is from oldest sequnce, starting with 2nd and 1 after that.
+limit 3
+;
+select * 
+from parks_and_recreation.employee_demographics
+order by age desc
+limit 3, 1 # here 3 is for start and then one count 
+;
 
--- aliasing, a way to change the name of column , and also be used in joins 
+
+# aliasing- naking a column 
 select gender, avg(age) as avg_age
 from parks_and_recreation.employee_demographics
-group by gender
-having avg_age> 40;
--- it can be used as too
-select gender, avg(age)  avg_age
-from parks_and_recreation.employee_demographics
-group by gender
-having avg_age> 40;
+group by gender 
+having avg_age > 40
+;
 
--- JOINS- aloows to combine two tables or more if they have common column data in it 
--- INNER JOIN- returns rows that are the same in both column from both the columns 
+
+-- JOINS 
+select * 
+from parks_and_recreation.employee_demographics
+;
+
+select * 
+from parks_and_recreation.employee_salary
+;
+ -- INNER JOIN - COMMON PART- only common rows will be populated 
+select * 
+from parks_and_recreation.employee_demographics as dem
+inner join parks_and_recreation.employee_salary as sal
+on dem.employee_id= sal.employee_id
+;
+# selecting specific columns 
+select dem.employee_id, age, occupation 
+from parks_and_recreation.employee_demographics as dem
+inner join parks_and_recreation.employee_salary as sal
+on dem.employee_id= sal.employee_id
+;
+
+-- OUTER JOIN 
+# LEFT JOIN / LEFT OUTER JOIN- all left table + match with right table
+# RIGHT JOIN/ RIGHT OUTER JOIN- all right table+ match with left table
+# left join
 select *
+from parks_and_recreation.employee_demographics as dem # left table 
+left join parks_and_recreation.employee_salary as sal # right table
+on dem.employee_id= sal.employee_id
+;
+# right join 
+select *
+from parks_and_recreation.employee_demographics as dem # left table 
+right join parks_and_recreation.employee_salary as sal # right table
+on dem.employee_id= sal.employee_id
+;
+
+# self join 
+select *
+from parks_and_recreation.employee_salary as emp1
+join parks_and_recreation.employee_salary as emp2
+   on emp1.employee_id +1 = emp2.employee_id
+;
+-- assigning secret santa case 
+select emp1.employee_id as emp_sanata,
+emp1.first_name as first_name_santa,
+emp1.last_name as last_name_santa,
+emp2.first_name as first_name_emp,
+emp2.last_name as last_name_emp
+
+from parks_and_recreation.employee_salary as emp1
+join parks_and_recreation.employee_salary as emp2
+   on emp1.employee_id +1 = emp2.employee_id
+;
+
+-- joining multiple table 
+# one to other and then another table 
+select * 
+from parks_and_recreation.employee_demographics as dem
+inner join parks_and_recreation.employee_salary as sal
+on dem.employee_id= sal.employee_id
+inner join parks_and_recreation.parks_departments as pd
+ on sal.dept_id = pd.department_id
+;
+
+
+select * 
+from parks_and_recreation.parks_departments;
+
+-- UNION - to combine the rows of data from separate table or from the same table 
+select age, gender
+from parks_and_recreation.employee_demographics
+union 
+select first_name, last_name
+from parks_and_recreation.employee_salary 
+;
+# but we need to combine same type of data 
+select first_name, last_name
+from parks_and_recreation.employee_demographics
+union # by default its union distinct 
+select first_name, last_name
+from parks_and_recreation.employee_salary 
+;
+ # ie
+select first_name, last_name
+from parks_and_recreation.employee_demographics
+union distinct
+select first_name, last_name
+from parks_and_recreation.employee_salary 
+;
+# showing all without removing duplicates 
+select first_name, last_name
+from parks_and_recreation.employee_demographics
+union all
+select first_name, last_name
+from parks_and_recreation.employee_salary 
+;
+
+# usecase 
+select first_name, last_name, 'old man' as lable # here old is labling 
+from parks_and_recreation.employee_demographics
+where age> 50 and gender ='male'
+union 
+select first_name, last_name, 'old lady' as lable # here old is labling 
+from parks_and_recreation.employee_demographics
+where age> 40 and gender ='female'
+
+union 
+select first_name, last_name, 'highly paid employee' as lable
+from parks_and_recreation.employee_salary 
+where salary > 70000
+order by first_name, last_name 
+;
+
+-- CASE STATEMENTS 
+-- STRING FUNCTIONS - built in funtions in sql that can be used on string differently
+select length('skyfall'); # tells length 
+
+ select first_name, length(first_name)
  from parks_and_recreation.employee_demographics
+ order by 2
  ;
  
- select *
- from parks_and_recreation.employee_salary
- ;
-
- select *
- from parks_and_recreation.employee_demographics as dem # first table/ left table
- inner join parks_and_recreation.employee_salary as sal # second table/ right table
-    on dem.employee_id = sal.employee_id  # here dem.employee_id indicates which table to pick to reamove ambiguity( confusion ) of picking table column 
-    ;
-    # if some valuse is missing in the left table it will not be poulated or print in the final result.
-    
-    
-     -- selecting the actual columns 
-      select dem.employee_id, age, occupation # here dem.employee_id tells that select from the demographics table to stop ambiguity
- from parks_and_recreation.employee_demographics as dem # first table/ left table
- inner join parks_and_recreation.employee_salary as sal # second table/ right table
-    on dem.employee_id = sal.employee_id  
-    ;
-    
-    -- OUTER JOIN 1. LEFT JOIN/LEFT OUTER JOIN, 2. RIGHT JOIN/ RIGHT OUTER JOIN 
-    -- LEFT JOIN- TAKES EVERYTHING FROM LEFT AND COMMON WITH RIGHT JOIN AND VICE VERSA. 
-select *
-     from parks_and_recreation.employee_demographics as dem
-         RIGHT  join parks_and_recreation.employee_salary as sal
-         on dem.employee_id = sal.employee_id  
-    ;
-    -- SELF JOIN 
-    SELECT * 
-    FROM parks_and_recreation.employee_salary as emp1
-    join parks_and_recreation.employee_salary as emp2 
-        on emp1.employee_id = emp2.employee_id
-    
-    ;
-    # one one match 
-    
-    
-        SELECT *
-    FROM parks_and_recreation.employee_salary as emp1
-    join parks_and_recreation.employee_salary as emp2 
-        on emp1.employee_id +1 = emp2.employee_id
-    
-    ;
-    
-    
--- joining multiple tables togather 
- select *
- from parks_and_recreation.employee_demographics as dem 
- inner join parks_and_recreation.employee_salary as sal 
-    on dem.employee_id = sal.employee_id   
-    ;
-    
-select *
- from parks_and_recreation.employee_demographics as dem 
- inner join parks_and_recreation.employee_salary as sal 
-    on dem.employee_id = sal.employee_id   
-    inner join parks_departments as pd
-    on sal.dept_id= pd.department_id
-    ;
-    
-    select * 
-    from parks_and_recreation;
-    
-    -- UNIONS - unions allows to combine rows togather, 
-  
-  select age, gender 
-  from parks_and_recreation.employee_demographics
-  union 
-  select first_name, last_name
-  from parks_and_recreation.employee_salary
-  ;
-# here data types is not same wo lets recombine again 
-# by default union is itself distinct ie 
-
- select age, gender 
-  from parks_and_recreation.employee_demographics
-  union distinct
-  select first_name, last_name
-  from parks_and_recreation.employee_salary
-  ;
-  -- without distinct 
-  
- select age, gender 
-  from parks_and_recreation.employee_demographics
-  union all 
-  select first_name, last_name
-  from parks_and_recreation.employee_salary
-  ;
-
- select first_name, last_name,  'old man ' as label # here old is labeling 
-  from parks_and_recreation.employee_demographics
-  where age > 40 and gender = 'male'
-  union 
-   select first_name, last_name,  'old lady' as label # here old is labeling 
-  from parks_and_recreation.employee_demographics
-  where age > 40 and gender = 'female'
-  union 
-   select first_name, last_name,  'highly paid employee' as label 
-  from parks_and_recreation.employee_salary # salary is different table
-  where salary >70000
-  order by first_name, last_name
-  ;
- 
- 
- -- string funtions- built in funtions which helps to use strings 
- -- 
-# length()
-select 
-first_name, length(first_name)
-from parks_and_recreation.employee_demographics
-order by 2
-;
-# upper()
-select upper('sky');
+# UPPER,LOWER, TRIM(removing white spaces),LTRIM, RTRIM 
+select upper ('sky');
 select lower('SKY');
+select trim('             sky             ');
+select
+rtrim('hello       ');
 
-SELECT first_name, upper(first_name)
-from employee_demographics;
+# SUBSTRING 
+select first_name, left(first_name, 4)# here 4 tells how many charaters from left hand side do we want to select
+from parks_and_recreation.employee_demographics 
 
--- TRIMM- TAKING WHITE SPACES 
-SELECT trim('    sky    ');
-SELECT ltrim('    sky    ');
-SELECT rtrim('    sky    ');
-
--- SUBSTRINGS 
-select first_name, 
-left(first_name, 4),#  here 4 means how many charaters from left do we want to select 
-right(first_name, 4),
-substring(first_name,3,2)# starats from 3rd position and then 2 charaters from there
-birth_date,
-substring(birth_date, 6, 2) as birth_month
-from parks_and_recreation.employee_demographics
 ;
--- REPLACE- replace a specific charater with a specific character 
+
+
+select first_name,
+ left(first_name, 4),
+ right(first_name,4),
+ substring(first_name,3,2),# here first num is starting and last is ending position
+ birth_date,
+ substring(birth_date, 6,2) as birth_month
+from parks_and_recreation.employee_demographics 
+;
+
+# REPLACE _ it will replace the charater 
 select first_name, replace(first_name, 'a', 'z')
 from parks_and_recreation.employee_demographics
 ;
--- LOCATE - 
-select locate('x', 'alexander');
-select first_name, locate('an', first_name)
+
+# LOCATE- tells the postion of the the character 
+select locate('n', ' first_name')
 from parks_and_recreation.employee_demographics
 ;
--- concatination
+# CONCATINATION ( ADDING  OF DIFFERENT COLUMNS)
+
 select first_name, last_name,
-concat(first_name, ' ', last_name) as full_name
-from parks_and_recreation.employee_demographics
-;
-
--- CASE STATEMENTS- allow to add logic in your select statement 
-select first_name,
-last_name,
-age,
-case
-when age<= 30 then 'young'
-when age between 31 and 50 then 'old'
-when age>= 50 then 'on deaths door'
-end as age_bracket
+concat(first_name, ' ',last_name) as full_name# here ' ' is used for spacing 
 from parks_and_recreation.employee_demographics
 ;
 
 
--- pay increase and bonus
--- < 50000 = 5% 
--- > 50000 = 7% 
--- finance = 10% 
-
-select first_name, last_name, salary,
-case 
-	 when salary <50000 then salary + (salary*0.05)
-     when salary >50000 then salary*1.07
-     # now challenge is that department is in different table so use another case statements 
-     
-  end as new_salary,
-  case 
-  when dept_id = 6 then salary*.10
-  end as bonus
-from parks_and_recreation.employee_salary
-;
 
 
--- SUBQUERIES - A QUERY WITH IN ANOTHER QUERY 
- 
- SELECT *
-FROM parks_and_recreation.employee_demographics
-WHERE employee_id IN (
-    SELECT employee_id # here only one operand can run.
-    FROM parks_and_recreation.employee_salary 
-    WHERE dept_id = 1
-);
-
-
- 
--- using subquerry in select statement
-select first_name, salary, avg(salary)
-from parks_and_recreation.employee_salary
- group by first_name, salary
-;
-
-# but we want avg of entire column 
-select first_name, salary, 
-                       ( select avg(salary)
-                       from parks_and_recreation.employee_salary
-                                                               )
-from parks_and_recreation.employee_salary
-;
- 
- -- using subquerry using from statement 
- select gender, avg(age), max(age), min(age), count(age)
+ -- CASE STAEMENT IN SQL- it allows you to add logic in your select statement
+ select first_name, 
+ last_name, 
+ age,
+ case 
+      when age <=30 then'YOUNG'
+      when age between 31 and 50 then 'old'
+      when age>= 50 then "on death's door"
+ end as age_bracket
  from parks_and_recreation.employee_demographics
- group by gender
  ;
-select gender, avg(`max(age)`)# use backtick or alias 
-from ( select gender, avg(age), max(age), min(age), count(age)
-     from parks_and_recreation.employee_demographics
-      group by gender )as agg_table
-      group by gender
+ # we can add multiple when statement here in between the case statement 
+ 
+ -- pay increase and bonus 
+ -- < 50000 = 5%
+ -- > 50000 = 7%
+ -- finance = 10 % bonus 
+ select first_name, last_name, salary,
+ case 
+    when salary < 50000 then salary + (salary*0.05)
+    when salary > 50000 then salary *1.07
+    
+ end as new_salary,
+  case 
+      when dept_id = 6 then salary * 1.06 # go and check for the id or use queries to find that finance department id which links to this table
+  end as bonus
+ from parks_and_recreation.employee_salary 
+ ;
+
+
+
+
+
+
+
+-- SUB QUERIES- a query inside  a query 
+select * 
+from parks_and_recreation.employee_demographics
+where employee_id in
+                    ( select employee_id # here all things within bracket is operand and it sould contain only one column
+                    
+                    from parks_and_recreation.employee_salary
+                    where dept_id= 1)
+;
+ 
+ 
+ # SUBQUERY IN SELECT STATEMENT 
+ -- trying to print avg salary of entire column regardless of group by 
+ select first_name, salary, avg(salary)
+ from parks_and_recreation.employee_salary 
+ group by first_name, salary 
+ ;
+ # but it wont worked so 
+   select first_name,
+   salary,
+   ( 
+   select  avg(salary) # here we applied avg on salary column and printed as a column 
+   from parks_and_recreation.employee_salary
+   ) as "avg salary"
+ from parks_and_recreation.employee_salary 
  ;
  
- select gender, avg(avg_age)# use backtick or alias 
-from ( select gender, 
-       avg(age) as avg_age, 
-       max(age) as max_age,
-       min(age) as min_age, 
-       count(age) as count
-     from parks_and_recreation.employee_demographics
-      group by gender )as agg_table
-      group by gender
- ;
  
- -- WINDOW FUNTIONS- allow us to look a partition or a group by the each keep thier own uniwue rows in the output, 
- select gender,avg(salary) as avg_salary
- from parks_and_recreation.employee_demographics dem
- join parks_and_recreation.employee_salary as sal
+ 
+ -- using subquery in the from statement 
+ select gender, avg(age), max(age), min(age), count(age)
+ from parks_and_recreation.employee_demographics 
+ group by gender 
+ ;
+# what if we want avg of oldest or smallest, then 
+select gender, avg(`max(age)`)# use backtick or write as below 
+from 
+( select gender, avg(age), max(age), min(age), count(age)
+ from parks_and_recreation.employee_demographics 
+ group by gender ) as agg_table
+ group by gender ;
+ 
+ -- here 
+ select gender, avg(max_age) 
+from 
+( select gender, 
+avg(age) as avg_age, 
+max(age) as max_age,
+ min(age) as min_age, 
+ count(age)
+ from parks_and_recreation.employee_demographics 
+ group by gender ) as agg_table
+  ;
+
+
+-- WINDOW FUNCTIONS- it is somewhat like a group by they don't role everything in a one row when grouping window unctions allow us to partion or group while they each keep uniwue rows by their output 
+  
+select gender, avg(salary) as avg_salary
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
   on dem.employee_id = sal.employee_id
-  group by gender
- ;
- 
- select gender,avg(salary) over( partition by gender) 
- from parks_and_recreation.employee_demographics dem
- join parks_and_recreation.employee_salary as sal
+  group by gender 
+;
+
+# using window functions/without group bye
+select gender, avg(salary) over()
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+
+
+# if nothing is written in the () then it will be considerd as everything 
+-- use case of partition by 
+select gender, avg(salary) over( partition by gender)
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+# we use window function to add additional info as 
+select dem.first_name, dem.last_name, gender, avg(salary) over( partition by gender)
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+
+# ie some more examples
+
+
+select dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ sum(salary) over( partition by gender order by dem.employee_id) as rolling_total
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+; # here rolling total is being applied 
+
+# special use 
+
+# ROW NUMBER- tells row's number all the way to the bottom just like employee id unique value 
+select dem.employee_id,
+dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ row_number() over()
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+# now on use of partition it  can repeat as per group elements from top to bottom 
+
+select dem.employee_id,
+dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ row_number() over( partition by gender)
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
   on dem.employee_id = sal.employee_id
   
- ;
- # aprtition by is kind of group which aprtition category for their own indivisual rows, which doesnt affect the existing column calculation of avg, and independent from other operations 
- 
- 
- select dem.first_name, dem.last_name, gender,avg(salary) over( partition by gender) 
- from parks_and_recreation.employee_demographics dem
- join parks_and_recreation.employee_salary as sal
+;
+# now if we have to rank the salary then we can use order by 
+select dem.employee_id,
+dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ row_number() over( partition by gender order by salary )
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
   on dem.employee_id = sal.employee_id
   
+;
+# for rank 
+select dem.employee_id,
+dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ row_number() over( partition by gender order by salary desc) as row_num ,
+ rank() over( partition by gender order by salary desc) as rank_num
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+# partition by is not gonna have duplicate rows in partition number 
+# rank can create duplicate on the behalf of of the order by 
+# rank decides next number positionly not numerically 
+
+# dense_rank- when it gets down to duplicate still gonna duplicate them but it gonna next number numerically not positionally 
+select dem.employee_id,
+dem.first_name, 
+dem.last_name,
+ gender,
+ salary,
+ row_number() over( partition by gender order by salary desc) as row_num ,
+ rank() over( partition by gender order by salary desc) as rank_num,
+  dense_rank() over( partition by gender order by salary desc) as rank_dense
+from parks_and_recreation.employee_demographics  as dem
+join parks_and_recreation.employee_salary as sal
+  on dem.employee_id = sal.employee_id
+;
+
+-- CTE- comman table expression- to define a subquerry block that you can then reference with in the main querry
+# it can be used only after it has been created  
+# used for advanced calcualtions which cant be done in a single querry
+# another use is readability
+# ctes are lot better over subquerries 
+
+ 
+ with cte_example  as 
+(
+ select gender, 
+ avg(age) as avg_sal,
+ max(age) as max_sal , 
+ min(age)as min_sal, 
+ count(age) as count_sal
+ from parks_and_recreation.employee_demographics as dem  
+ join parks_and_recreation.employee_salary as sal
+     on dem.employee_id = sal.employee_id
+ group by gender 
+ )
+ select avg(avg_sal)
+ from cte_example
+ ;
+
+# we can use columns names like this after overwritiing alias
+with cte_example (gender,avg_salary, max_salary, min_salary, count_sal) as 
+(
+ select gender, 
+ avg(age) as avg_sal,
+ max(age) as max_sal , 
+ min(age)as min_sal, 
+ count(age) as count_sal
+ from parks_and_recreation.employee_demographics as dem  
+ join parks_and_recreation.employee_salary as sal
+     on dem.employee_id = sal.employee_id
+ group by gender 
+ )
+ select *
+ from cte_example
  ;
  
-  select dem.first_name, 
-  dem.last_name, gender,
-  sum(salary) over(partition by gender order by dem.employee_id) as rolling_total # here the sum is rolling toatal adding to the existing total
- from parks_and_recreation.employee_demographics dem
- join parks_and_recreation.employee_salary as sal
-  on dem.employee_id = sal.employee_id
-  
+ 
+
+ 
+ -- additionla functinality 
+ with cte_example as 
+ (
+ select employee_id,
+ gender,
+ birth_date
+ from parks_and_recreation.employee_demographics as dem  
+ where birth_date> '1985-01-01'
+ 
+ ),
+ cte_example2 as 
+ (
+ select * 
+ from parks_and_recreation.employee_salary 
+ where salary> 50000
+ )
+ select *
+ from cte_example
+ join cte_example2
+   on cte_example.employee_id = cte_example2.employee_id
  ;
+ # here join properties can be used 
+ 
+  with cte_example  as 
+ (
+ select employee_id,
+ gender,
+ birth_date
+ from parks_and_recreation.employee_demographics as dem  
+ where birth_date> '1985-01-01'
+ 
+ ),
+ cte_example2 as 
+ (
+ select * 
+ from parks_and_recreation.employee_salary 
+ where salary> 50000
+ )
+ select *
+ from cte_example
+ join cte_example2
+   on cte_example.employee_id = cte_example2.employee_id
+ ;
+ use parks_and_recreation;
+ 
+ 
+ 
+ # TEMPORARY TABLES/ TEMP TABLES- table that are only visible to the session they are created in 
+ # restoring intermediate results in complex querries 
+   
+   create temporary table temp_table
+   (first_name varchar(50), 
+   last_name varchar(50),
+   favourite_movie varchar(100)
+   );
+ 
+   select * 
+   from temp_table;
+   insert into temp_table
+   values('pradeep', 'kumar', 'mahabharat')
+   ;
+   select * 
+   from temp_table;
+   
+   # importing data from other table
+   create temporary table salary_over_50k
+   select * 
+   from employee_salary 
+   where salary> 50000;
+   select * 
+   from salary_over_50k;
+   
+   # it will remain only in this session 
+   
+   -- STORED PROCEDURES- way to save our sql code and reuse over and over again
+   
+   
+   -- creating procedure 
+   create procedure large_salaries()
+   select * 
+   from parks_and_recreation.employee_salary
+   where salary>= 50000
+   ;
+   
+   
+   # calling procedure 
+   call large_salaries();
+   
+   # storing multiple querry, now to store in a single procedure we need to use delimitter 
+   
+   delimiter $$ 
+   create procedure large_salaries3()
+   begin 
+   select * 
+   from parks_and_recreation.employee_salary
+   where salary>= 50000;
+   select * 
+   from parks_and_recreation.employee_salary
+   where salary>= 10000;
+   end $$
+   delimiter ;
+   # keep proper spacing here 
+   call large_salaries3();
+   
+   -- PARAMETERS- parameters are variables that applies as a input into a stored procedure and it allows the stored procedure to accept and input value and place in to your code   
+   
+   
+   # here employee_id is known, now i have to pull up their salary,  when we are calling it pass the id value in the (), now create a parameter in procedure names (), name it as per coninience and define data data as int   
+   # where condition right side shold match with name you put in first line 
+   DELIMITER $$
+drop procedure if exists large_salaries5;
+CREATE PROCEDURE large_salaries5(IN emp_id INT)
+BEGIN
+    SELECT salary
+    FROM parks_and_recreation.employee_salary
+    WHERE employee_id = emp_id;
+END $$
+
+DELIMITER ;
+
+CALL large_salaries5(1);
+
+-- TRIGGERS AND EVENTS 
+# TRIGGER- a trigger is a block of code that execute automatically when a event takes place on a specific table 
+
+# to add ron swanson from one table to another 
+DELIMITER $$ 
+ create trigger employee_insert 
+    after insert on employee_salary # before can also be used at place of after, means if data is deleted from employee_salary something could happen 
+	for each row 
+ begin 
+    insert into employee_demographics(employee_id, first_name,last_name)
+     values ( new.employee_id, new.first_name, new.last_name); # here old can also be 
+ end $$
+INSERT INTO employee_salary (employee_id, first_name, last_name, occupation, salary, dept_id)
+VALUES (13, 'jean-rolphio', 'saperstein', 'entertainment 720 ceo', 1000000, NULL);
+
+
+# EVENTS - a trigger happens when a event takes place 
+
 
