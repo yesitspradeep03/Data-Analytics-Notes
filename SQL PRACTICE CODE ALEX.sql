@@ -1,4 +1,4 @@
- # SELECT STATEMENT 
+  # SELECT STATEMENT 
  use parks_and_recreation;
  SELECT * # for whole table
  FROM parks_and_recreation.employee_demographics; # here db is selected and then table name 
@@ -701,18 +701,45 @@ CALL large_salaries5(1);
 # TRIGGER- a trigger is a block of code that execute automatically when a event takes place on a specific table 
 
 # to add ron swanson from one table to another 
-DELIMITER $$ 
- create trigger employee_insert 
-    after insert on employee_salary # before can also be used at place of after, means if data is deleted from employee_salary something could happen 
-	for each row 
- begin 
-    insert into employee_demographics(employee_id, first_name,last_name)
-     values ( new.employee_id, new.first_name, new.last_name); # here old can also be 
- end $$
+ DELIMITER $$
+
+CREATE TRIGGER employee_insert 
+AFTER INSERT ON employee_salary 
+FOR EACH ROW 
+BEGIN 
+    INSERT INTO employee_demographics(employee_id, first_name, last_name)
+    VALUES (NEW.employee_id, NEW.first_name, NEW.last_name);
+END $$
+
+DELIMITER ;
+
+--  Now run your insert query AFTER exiting trigger block
 INSERT INTO employee_salary (employee_id, first_name, last_name, occupation, salary, dept_id)
 VALUES (13, 'jean-rolphio', 'saperstein', 'entertainment 720 ceo', 1000000, NULL);
 
 
-# EVENTS - a trigger happens when a event takes place 
+# EVENTS - a trigger happens when a event takes place where as a event takes place when its scheduled
+# it is kind of a schduled automator 
+# pulling data,build report and export a file on a schedule 
+# super helpful in automation in general 
 
+select * 
+from employee_demographics;
 
+DELIMITER $$
+create event delete_retirees
+on schedule every 30 second    # we can use months,year, or a time period
+do 
+begin
+     delete 
+     from employee_demographics
+     where age >= 60;
+end $$
+DELIMITER ;
+
+select * 
+from employee_demographics;
+
+# if you couldn't create event 
+show variables like 'event%'; # if its 'on' then its working
+ #  if still not working then . edit -> preferences-> sql editor-> uncheck safe update 
